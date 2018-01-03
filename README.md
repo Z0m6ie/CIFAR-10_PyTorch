@@ -1,2 +1,2 @@
-# CIFAR-10_PyTorch
-Implement various models in PyTorch using the CIFAR 10 dataset
+# CIFAR10-PyTorch
+A generic implementation to train, validate &amp; test various models on the CIFAR 10 dataset. All in PyTorch.
