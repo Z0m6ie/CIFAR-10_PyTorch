@@ -9,7 +9,7 @@ class dw_conv(nn.Module):
     def __init__(self, in_dim, out_dim, stride):
         super(dw_conv, self).__init__()
         self.dw_conv_k3 = nn.Conv2d(
-            in_dim, out_dim, kernel_size=3, stride=stride, groups=in_dim)
+            in_dim, out_dim, kernel_size=3, stride=stride, groups=in_dim, bias=False)
         self.bn = nn.BatchNorm2d(out_dim)
         self.relu = nn.ReLU(inplace=True)
 
@@ -24,7 +24,7 @@ class point_conv(nn.Module):
 
     def __init__(self, in_dim, out_dim):
         super(point_conv, self).__init__()
-        self.p_conv_k1 = nn.Conv2d(in_dim, out_dim, kernel_size=1)
+        self.p_conv_k1 = nn.Conv2d(in_dim, out_dim, kernel_size=1, bias=False)
         self.bn = nn.BatchNorm2d(out_dim)
         self.relu = nn.ReLU(inplace=True)
 
@@ -111,7 +111,7 @@ class MobileNets(nn.Module):
         x = self.features(x)
         x = x.view(-1, 1024)
         x = self.fc(x)
-        return F.log_softmax(x)
+        return x
 
 
 def mobilenet(num_classes, large_img, **kwargs):
