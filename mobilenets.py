@@ -1,11 +1,10 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 use_cuda = torch.cuda.is_available()
 
 
 class dw_conv(nn.Module):
-
+    # Depthwise convolution, currently slow to train in PyTorch
     def __init__(self, in_dim, out_dim, stride):
         super(dw_conv, self).__init__()
         self.dw_conv_k3 = nn.Conv2d(
@@ -21,7 +20,7 @@ class dw_conv(nn.Module):
 
 
 class point_conv(nn.Module):
-
+    # Pointwise 1 x 1 convolution
     def __init__(self, in_dim, out_dim):
         super(point_conv, self).__init__()
         self.p_conv_k1 = nn.Conv2d(in_dim, out_dim, kernel_size=1, bias=False)
@@ -115,6 +114,13 @@ class MobileNets(nn.Module):
 
 
 def mobilenet(num_classes, large_img, **kwargs):
+    r"""PyTorch implementation of the MobileNets architecture
+    <https://arxiv.org/abs/1704.04861>`_.
+    Model has been designed to work on either ImageNet or CIFAR-10
+    Args:
+        num_classes (int): 1000 for ImageNet, 10 for CIFAR-10
+        large_img (bool): True for ImageNet, False for CIFAR-10
+    """
     model = MobileNets(num_classes, large_img, **kwargs)
     if use_cuda:
         model = model.cuda()
